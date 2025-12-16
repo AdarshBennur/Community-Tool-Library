@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Tool Library - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header with Search -->
+    <header class="header">
+        <div class="header-left">
+            <h1>Community Tool Library</h1>
+            <p>Microservices Management Dashboard</p>
+        </div>
+        <div class="header-right">
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+            </div>
+            <button class="icon-btn">🔔</button>
+            <button class="icon-btn">👤</button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('users')">Users</button>
+        <button class="nav-tab" onclick="switchTab('tools')">Tools</button>
+        <button class="nav-tab" onclick="switchTab('borrows')">Borrows</button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- USERS TAB -->
+        <div id="users-tab" class="tab-pane active">
+            <div class="content-grid">
+                <!-- Left Sidebar - Form -->
+                <aside class="sidebar-form">
+                    <div class="form-card">
+                        <h2 id="users-form-title">Add New User</h2>
+                        <form id="users-form">
+                            <input type="hidden" id="user-id">
+
+                            <div class="form-field">
+                                <label>Name</label>
+                                <input type="text" id="user-name" placeholder="Enter name" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label>Email</label>
+                                <input type="email" id="user-email" placeholder="Enter email" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label>Phone</label>
+                                <input type="tel" id="user-phone" placeholder="Enter phone" required>
+                            </div>
+
+                            <button type="submit" class="btn-primary">Save User</button>
+                            <button type="button" class="btn-secondary" onclick="resetUserForm()">Cancel</button>
+                        </form>
+                    </div>
+                </aside>
+
+                <!-- Right Main Area - Table -->
+                <section class="main-table">
+                    <div class="table-header-row">
+                        <h2>All Users</h2>
+                        <button class="btn-refresh" onclick="loadUsers()">🔄 Refresh</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <tr>
+                                    <td colspan="5" class="loading">Loading users...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- TOOLS TAB -->
+        <div id="tools-tab" class="tab-pane">
+            <div class="content-grid">
+                <!-- Left Sidebar - Form -->
+                <aside class="sidebar-form">
+                    <div class="form-card">
+                        <h2 id="tools-form-title">Add New Tool</h2>
+                        <form id="tools-form">
+                            <input type="hidden" id="tool-id">
+
+                            <div class="form-field">
+                                <label>Name</label>
+                                <input type="text" id="tool-name" placeholder="Enter tool name" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label>Category</label>
+                                <input type="text" id="tool-category" placeholder="Enter category" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label>Available Quantity</label>
+                                <input type="number" id="tool-quantity" min="0" placeholder="Enter quantity" required>
+                            </div>
+
+                            <button type="submit" class="btn-primary">Save Tool</button>
+                            <button type="button" class="btn-secondary" onclick="resetToolForm()">Cancel</button>
+                        </form>
+                    </div>
+                </aside>
+
+                <!-- Right Main Area - Table -->
+                <section class="main-table">
+                    <div class="table-header-row">
+                        <h2>All Tools</h2>
+                        <button class="btn-refresh" onclick="loadTools()">🔄 Refresh</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Tool ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Available</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tools-tbody">
+                                <tr>
+                                    <td colspan="5" class="loading">Loading tools...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- BORROWS TAB -->
+        <div id="borrows-tab" class="tab-pane">
+            <div class="content-grid">
+                <!-- Left Sidebar - Form -->
+                <aside class="sidebar-form">
+                    <div class="form-card">
+                        <h2>Create New Borrow</h2>
+                        <form id="borrows-form">
+                            <div class="form-field">
+                                <label>Select User</label>
+                                <select id="borrow-user" required>
+                                    <option value="">-- Select User --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label>Select Tool</label>
+                                <select id="borrow-tool" required>
+                                    <option value="">-- Select Tool --</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn-primary">Create Borrow</button>
+                        </form>
+                    </div>
+                </aside>
+
+                <!-- Right Main Area - Table -->
+                <section class="main-table">
+                    <div class="table-header-row">
+                        <h2>All Borrows</h2>
+                        <button class="btn-refresh" onclick="loadBorrows()">🔄 Refresh</button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Borrow ID</th>
+                                    <th>User</th>
+                                    <th>Tool</th>
+                                    <th>Borrow Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="borrows-tbody">
+                                <tr>
+                                    <td colspan="5" class="loading">Loading borrows...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
