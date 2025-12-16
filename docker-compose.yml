@@ -57,7 +57,32 @@ services:
       retries: 5
 
   # ============================================
-  # Eureka Server (Service Discovery)
+  # API Gateway (Single Entry Point)
+  # ============================================
+  
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: no
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices-network
+    depends_on:
+      eureka-server:
+        condition: service_started
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ============================================
+  # User Service
   # ============================================
   
   eureka-server:

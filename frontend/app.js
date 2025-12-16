@@ -1,8 +1,8 @@
-// API Base URLs
+// API Base URLs - All requests go through API Gateway
 const API = {
-    USERS: 'http://localhost:8081/users',
-    TOOLS: 'http://localhost:8082/tools',
-    BORROWS: 'http://localhost:8083/borrow'
+    USERS: 'http://localhost:8080/api/users',
+    TOOLS: 'http://localhost:8080/api/tools',
+    BORROWS: 'http://localhost:8080/api/borrow'
 };
 
 // Global state
