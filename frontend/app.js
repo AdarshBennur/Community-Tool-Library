@@ -47,13 +47,26 @@ function switchTab(tabName) {
 // USERS CRUD
 // ============================================
 async function loadUsers() {
+    console.log('Loading users from:', API.USERS);
     try {
-        const response = await fetch(API.USERS);
-        if (!response.ok) throw new Error('Failed to load users');
+        const response = await fetch(API.USERS, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+        if (!response.ok) throw new Error('Failed to load users - Status: ' + response.status);
 
         currentUsers = await response.json();
+        console.log('Users loaded:', currentUsers);
         renderUsersTable(currentUsers);
     } catch (error) {
+        console.error('Load users error:', error);
         showNotification('Error loading users: ' + error.message, 'error');
         document.getElementById('users-tbody').innerHTML =
             '<tr><td colspan="5" class="empty">Failed to load users</td></tr>';
@@ -159,7 +172,15 @@ function resetUserForm() {
 // ============================================
 async function loadTools() {
     try {
-        const response = await fetch(API.TOOLS);
+        const response = await fetch(API.TOOLS, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
         if (!response.ok) throw new Error('Failed to load tools');
 
         currentTools = await response.json();
@@ -270,7 +291,15 @@ function resetToolForm() {
 // ============================================
 async function loadBorrows() {
     try {
-        const response = await fetch(API.BORROWS);
+        const response = await fetch(API.BORROWS, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
         if (!response.ok) throw new Error('Failed to load borrows');
 
         currentBorrows = await response.json();
