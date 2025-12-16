@@ -4,18 +4,30 @@ A complete microservices-based application for a community tool library built wi
 
 ## 🏗️ Architecture Overview
 
-This project consists of **4 microservices**:
+This project consists of **5 microservices**:
 
-1. **Eureka Server** (Port 8761) - Service Discovery
-2. **User Service** (Port 8081) - Manages community members
-3. **Tool Service** (Port 8082) - Manages available tools
-4. **Borrow Service** (Port 8083) - Handles borrowing with inter-service communication
+1. **API Gateway** (Port 8080) - Single entry point for all client requests
+2. **Eureka Server** (Port 8761) - Service Discovery
+3. **User Service** (Port 8081) - Manages community members
+4. **Tool Service** (Port 8082) - Manages available tools
+5. **Borrow Service** (Port 8083) - Handles borrowing with inter-service communication
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      Eureka Server (8761)                   │
-│                    Service Discovery                        │
-└────────────┬──────────────┬─────────────┬───────────────────┘
+                        ┌──────────────────────┐
+                        │   Frontend/Client    │
+                        └──────────┬───────────┘
+                                   │ All requests via /api
+                        ┌──────────▼───────────┐
+                        │   API Gateway (8080) │
+                        │  Single Entry Point  │
+                        └──────────┬───────────┘
+                                   │
+             ┌─────────────────────┼─────────────────────┐
+             │                     │                     │
+┌────────────▼──────────────────────▼──────────────────▼────────────┐
+│                      Eureka Server (8761)                          │
+│                       Service Discovery                            │
+└────────────┬──────────────┬─────────────┬──────────────────────────┘
              │              │             │
     ┌────────▼────────┐ ┌──▼──────────┐ ┌▼────────────────────┐
     │  User Service   │ │ Tool Service│ │  Borrow Service     │
@@ -36,6 +48,7 @@ This project consists of **4 microservices**:
 
 ## 🎯 Key Features
 
+✅ **API Gateway** - Single entry point on port 8080 for all client requests  
 ✅ **Service Discovery** - All services register with Eureka Server  
 ✅ **Inter-Service Communication** - Borrow Service uses Feign to call User & Tool services  
 ✅ **Database Independence** - Each service has its own MySQL database  
@@ -56,6 +69,7 @@ This project consists of **4 microservices**:
 ```bash
 # Navigate to each service and build
 cd eureka-server && mvn clean package && cd ..
+cd api-gateway && mvn clean package && cd ..
 cd user-service && mvn clean package && cd ..
 cd tool-service && mvn clean package && cd ..
 cd borrow-service && mvn clean package && cd ..
@@ -70,6 +84,7 @@ docker-compose up --build
 
 This will start:
 
+- API Gateway on <http://localhost:8080>
 - Eureka Server on <http://localhost:8761>
 - User Service on <http://localhost:8081>
 - Tool Service on <http://localhost:8082>
