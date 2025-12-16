@@ -1,0 +1,23 @@
+# Test Configuration for User Service
+# This file contains test-specific properties
+
+spring:
+  application:
+    name: USER-SERVICE-TEST
+
+  # Use H2 in-memory database for testing instead of MySQL
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+# Disable Eureka for tests
+eureka:
+  client:
+    enabled: false

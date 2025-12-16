@@ -1,0 +1,43 @@
+server:
+  port: 8083 # Borrow Service port
+
+spring:
+  application:
+    name: BORROW-SERVICE # Service name in Eureka
+
+  # MySQL Database Configuration
+  datasource:
+    url: jdbc:mysql://mysql-borrow:3306/borrow_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: rootpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically create/update tables
+    show-sql: true # Show SQL queries in console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/ # Register with Eureka Server
+    register-with-eureka: true
+    fetch-registry: true # IMPORTANT: Fetch registry to discover other services
+  instance:
+    prefer-ip-address: true
+    hostname: borrow-service
+
+# Feign Client Configuration (optional, for debugging)
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full

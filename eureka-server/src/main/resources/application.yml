@@ -1,0 +1,20 @@
+server:
+  port: 8761  # Standard Eureka Server port
+
+spring:
+  application:
+    name: eureka-server  # Application name
+
+eureka:
+  client:
+    # Don't register this Eureka Server with itself
+    register-with-eureka: false
+    # Don't fetch registry since this is the registry itself
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    # Disable self-preservation mode in development
+    enable-self-preservation: false
+    # How often to check for expired services (in ms)
+    eviction-interval-timer-in-ms: 5000

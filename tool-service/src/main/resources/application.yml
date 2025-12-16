@@ -1,0 +1,34 @@
+server:
+  port: 8082 # Tool Service port
+
+spring:
+  application:
+    name: TOOL-SERVICE # Service name in Eureka (MUST match Feign client name)
+
+  # MySQL Database Configuration
+  datasource:
+    url: jdbc:mysql://mysql-tool:3306/tool_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: rootpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically create/update tables
+    show-sql: true # Show SQL queries in console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/ # Register with Eureka Server
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    hostname: tool-service
