@@ -15,25 +15,25 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/users/**
+            - Path=/api/users,/api/users/**
           filters:
-            - RewritePath=/api/users/(?<segment>.*), /users/$\{segment}
+            - RewritePath=/api/users(?<segment>/?.*), /users$\{segment}
 
         # Tool Service Routes
         - id: tool-service
           uri: lb://TOOL-SERVICE
           predicates:
-            - Path=/api/tools/**
+            - Path=/api/tools,/api/tools/**
           filters:
-            - RewritePath=/api/tools/(?<segment>.*), /tools/$\{segment}
+            - RewritePath=/api/tools(?<segment>/?.*), /tools$\{segment}
 
         # Borrow Service Routes
         - id: borrow-service
           uri: lb://BORROW-SERVICE
           predicates:
-            - Path=/api/borrow/**
+            - Path=/api/borrow,/api/borrow/**
           filters:
-            - RewritePath=/api/borrow/(?<segment>.*), /borrow/$\{segment}
+            - RewritePath=/api/borrow(?<segment>/?.*), /borrow$\{segment}
 
       globalcors:
         corsConfigurations:
